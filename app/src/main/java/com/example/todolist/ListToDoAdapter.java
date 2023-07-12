@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -60,15 +61,18 @@ public class ListToDoAdapter extends RecyclerView.Adapter<ListToDoAdapter.ViewHo
             } else Toast.makeText(context, "Xoá thất bại", Toast.LENGTH_SHORT).show();
         });
 
-        holder.chkStatus.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            int id = list.get(holder.getAdapterPosition()).getID();
-            boolean check = dao.updateStatus(id,holder.chkStatus.isChecked());
-            if (check) {
-                Toast.makeText(context, "Đã đổi trạng thái", Toast.LENGTH_SHORT).show();
-                list.clear();
-                list = dao.getListToDo();
-                notifyDataSetChanged();
-            } else Toast.makeText(context, "Không đổi được trạng thái", Toast.LENGTH_SHORT).show();
+        holder.chkStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                int id = list.get(holder.getAdapterPosition()).getID();
+                boolean check = dao.updateStatus(id,holder.chkStatus.isChecked());
+                if (check) {
+                    Toast.makeText(context, "Đã đổi trạng thái", Toast.LENGTH_SHORT).show();
+                    list.clear();
+                    list = dao.getListToDo();
+                    notifyDataSetChanged();
+                } else Toast.makeText(context, "Không đổi được trạng thái", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
