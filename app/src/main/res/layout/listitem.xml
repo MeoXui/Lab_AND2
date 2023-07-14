@@ -33,14 +33,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/baseline_add_24"
-            android:background=""/>
+            android:background="@drawable/custom_list_item"/>
 
         <ImageButton
             android:id="@+id/btn_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/baseline_delete_24"
-            android:background=""/>
+            android:background="@drawable/custom_list_item"/>
     </LinearLayout>
 
     <TextView
