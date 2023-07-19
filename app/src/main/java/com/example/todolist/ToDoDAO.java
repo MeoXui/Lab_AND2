@@ -2,6 +2,7 @@ package com.example.todolist;
 
 import static android.content.ContentValues.TAG;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -14,12 +15,12 @@ import androidx.annotation.NonNull;
 import java.util.ArrayList;
 
 public class ToDoDAO {
-    private final Context context;
+    final Context context;
     final DBHelper dbHelper;
 
-    public ToDoDAO(Context context) {
+    public ToDoDAO(Context context, DBHelper dbHelper) {
         this.context = context;
-        dbHelper = new DBHelper(context);
+        this.dbHelper = dbHelper;
     }
 
     public ArrayList<ToDo> getListToDo(){
@@ -27,7 +28,7 @@ public class ToDoDAO {
         SQLiteDatabase database = dbHelper.getWritableDatabase();
         database.beginTransaction();
         try{
-            Cursor cursor = database.rawQuery("Select * From TODO",null);
+            @SuppressLint("Recycle") Cursor cursor = database.rawQuery("Select * From TODO",null);
             if(cursor != null && cursor.getCount() > 0){
                 cursor.moveToFirst();
                 while (!cursor.isAfterLast()){
@@ -42,7 +43,7 @@ public class ToDoDAO {
                     cursor.moveToNext();
                 }
                 database.setTransactionSuccessful();
-            } else Toast.makeText(context, "Null Data!", Toast.LENGTH_SHORT).show();
+            } else Toast.makeText(context, "Dữ liệu trống", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Log.e(TAG, "Get List ToDo: "+e);
         } finally {
@@ -51,18 +52,18 @@ public class ToDoDAO {
         return list;
     }
 
-    public void add(@NonNull ToDo toDo){
+    public boolean add(@NonNull ToDo toDo){
         SQLiteDatabase database = dbHelper.getWritableDatabase();
         database.beginTransaction();
         ContentValues values = new ContentValues();
         values.put("ID", toDo.ID);
         values.put("TITLE", toDo.Title);
-//        Toast.makeText(context, toDo.Title, Toast.LENGTH_SHORT).show();
         values.put("CONTENT", toDo.Comt);
         values.put("DATE", toDo.Date);
         values.put("TYPE", toDo.Type);
         values.put("STATUS", toDo.Status);
-        database.insert("TODO", null, values);
+        int row = (int) database.insert("TODO", null, values);
+        return row != -1;
     }
 
     public boolean remove(int position){

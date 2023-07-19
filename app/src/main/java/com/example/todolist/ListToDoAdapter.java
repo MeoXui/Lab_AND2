@@ -1,5 +1,6 @@
 package com.example.todolist;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Paint;
@@ -7,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 public class ListToDoAdapter extends RecyclerView.Adapter<ListToDoAdapter.ViewHolder> {
 
     private final Context context;
-    private ArrayList<ToDo> list;
+    private final ArrayList<ToDo> list;
     private final ToDoDAO dao;
 
     public ListToDoAdapter(Context context, ArrayList<ToDo> list, ToDoDAO dao) {
@@ -37,6 +37,7 @@ public class ListToDoAdapter extends RecyclerView.Adapter<ListToDoAdapter.ViewHo
         return new ViewHolder(view);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.tvTitle.setText(list.get(position).Title);
@@ -53,25 +54,22 @@ public class ListToDoAdapter extends RecyclerView.Adapter<ListToDoAdapter.ViewHo
             int id = list.get(holder.getAdapterPosition()).ID;
             boolean check = dao.remove(id);
             if (check) {
-                Toast.makeText(context, "Xoá thàng công", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Đã xoá", Toast.LENGTH_SHORT).show();
                 list.clear();
                 list.addAll(dao.getListToDo());
                 notifyItemRemoved(holder.getAdapterPosition());
-            } else Toast.makeText(context, "Xoá thất bại", Toast.LENGTH_SHORT).show();
+            } else Toast.makeText(context, "Đã xảy ra lỗi", Toast.LENGTH_SHORT).show();
         });
 
-        holder.chkStatus.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                int id = list.get(holder.getAdapterPosition()).ID;
-                boolean check = dao.updateStatus(id,holder.chkStatus.isChecked());
-                if (check) {
-                    Toast.makeText(context, "Đã đổi trạng thái", Toast.LENGTH_SHORT).show();
-                    list.clear();
-                    list.addAll(dao.getListToDo());
-                    notifyDataSetChanged();
-                } else Toast.makeText(context, "Không đổi được trạng thái", Toast.LENGTH_SHORT).show();
-            }
+        holder.chkStatus.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            int id = list.get(holder.getAdapterPosition()).ID;
+            boolean check = dao.updateStatus(id,holder.chkStatus.isChecked());
+            if (check) {
+                Toast.makeText(context, "Đã đổi trạng thái", Toast.LENGTH_SHORT).show();
+                list.clear();
+                list.addAll(dao.getListToDo());
+                notifyDataSetChanged();
+            } else Toast.makeText(context, "Đã xảy ra lỗi", Toast.LENGTH_SHORT).show();
         });
     }
 

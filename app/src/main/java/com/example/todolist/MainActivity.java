@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     DBHelper dbHelper = new DBHelper(context);
 
-    ToDoDAO dao = new ToDoDAO(context);
+    ToDoDAO dao = new ToDoDAO(context,dbHelper);
 
     ArrayList<ToDo> list = new ArrayList<>();
 
@@ -52,12 +52,16 @@ public class MainActivity extends AppCompatActivity {
 
         btnAdd.setOnClickListener(v -> {
             int iD=list.size()+1;
-            dao.add(new ToDo(iD, edtTitle.getText().toString(),
+            boolean check = dao.add(new ToDo(iD,
+                    edtTitle.getText().toString(),
                     edtCont.getText().toString(),
                     edtDate.getText().toString(),
                     edtType.getText().toString(),
                     0));
-            refresh(recyclerView);
+            if(check){
+                refresh(recyclerView);
+                Toast.makeText(context, "Đã thêm", Toast.LENGTH_SHORT).show();
+            } else Toast.makeText(context, "Đã xảy ra lỗi", Toast.LENGTH_SHORT).show();
         });
     }
 }
