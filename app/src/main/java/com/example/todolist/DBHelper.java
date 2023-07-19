@@ -3,6 +3,7 @@ package com.example.todolist;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -24,10 +25,14 @@ public class DBHelper extends SQLiteOpenHelper {
 
         String sqlCodeInsertDataIntoTableTodo =
                 "Insert Into TODO Values" +
-                        "('Học Java', 'Học Java cơ bản', '27/2/2023', 'Bình thường', 1)," +
-                        "('Học React Native', 'Học React Native cơ bản', '24/3/2023', 'Khó', 0)," +
-                        "('Học Kotlin', 'Học Kotlin cơ bản', '1/4/2023', 'Dễ', 0)";
-        db.execSQL(sqlCodeInsertDataIntoTableTodo);
+                        "('Học Java', 'Học Java cơ bản', '27022023', 'Bình thường', 1)," +
+                        "('Học React Native', 'Học React Native cơ bản', '24032023', 'Khó', 0)," +
+                        "('Học Kotlin', 'Học Kotlin cơ bản', '01042023', 'Dễ', 0)";
+        try {
+            db.execSQL(sqlCodeInsertDataIntoTableTodo);
+        } catch (Exception e){
+            return;
+        }
     }
 
     @Override

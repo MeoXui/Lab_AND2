@@ -8,24 +8,11 @@ import android.content.Context;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
-    EditText edtTitle = findViewById(R.id.txt_title),
-            edtCont = findViewById(R.id.txt_content),
-            edtDate = findViewById(R.id.txt_date),
-            edtType = findViewById(R.id.txt_type);
-
-    Button btnAdd = findViewById(R.id.btn_add);
-
-    RecyclerView recyclerView = findViewById(R.id.rcl_lst_todo);
-
-    String sTitle = edtTitle.getText().toString(),
-            sCont = edtCont.getText().toString(),
-            sDate = edtDate.getText().toString(),
-            sType = edtType.getText().toString();
 
     Context context = MainActivity.this;
 
@@ -33,15 +20,16 @@ public class MainActivity extends AppCompatActivity {
 
     ToDoDAO dao = new ToDoDAO(context);
 
-    ArrayList<ToDo> list;
+    ArrayList<ToDo> list = new ArrayList<>();
 
     ListToDoAdapter adapter;
 
-    void refresh(){
+    void refresh(RecyclerView recyclerView){
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
         linearLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(linearLayoutManager);
-        list = dao.getListToDo();
+        list.clear();
+        list.addAll(dao.getListToDo());
         adapter = new ListToDoAdapter(context, list, dao);
         recyclerView.setAdapter(adapter);
     }
@@ -51,20 +39,25 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        refresh();
+        EditText edtTitle = findViewById(R.id.title),
+                edtCont = findViewById(R.id.txt_content),
+                edtDate = findViewById(R.id.txt_date),
+                edtType = findViewById(R.id.txt_type);
+
+        Button btnAdd = findViewById(R.id.btn_add);
+
+        RecyclerView recyclerView = findViewById(R.id.rcl_lst_todo);
+
+        refresh(recyclerView);
 
         btnAdd.setOnClickListener(v -> {
-            int iD=0;
-            while (ifExist(iD))iD++;
-            dao.add(new ToDo(iD, sTitle, sCont, sDate, sType, 0));
-            refresh();
+            int iD=list.size()+1;
+            dao.add(new ToDo(iD, edtTitle.getText().toString(),
+                    edtCont.getText().toString(),
+                    edtDate.getText().toString(),
+                    edtType.getText().toString(),
+                    0));
+            refresh(recyclerView);
         });
-    }
-
-    private boolean ifExist(int iD) {
-        ArrayList<ToDo> listTodo = dao.getListToDo();
-        for(ToDo toDo : listTodo)
-            if(iD == toDo.getID()) return true;
-        return false;
     }
 }

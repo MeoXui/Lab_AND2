@@ -31,14 +31,14 @@ public class ToDoDAO {
             if(cursor != null && cursor.getCount() > 0){
                 cursor.moveToFirst();
                 while (!cursor.isAfterLast()){
-                    list.add(new ToDo(
+                    ToDo toDo = new ToDo(
                             cursor.getInt(0),
                             cursor.getString(1),
                             cursor.getString(2),
                             cursor.getString(3),
                             cursor.getString(4),
-                            cursor.getInt(5)
-                    ));
+                            cursor.getInt(5));
+                    list.add(toDo);
                     cursor.moveToNext();
                 }
                 database.setTransactionSuccessful();
@@ -51,17 +51,18 @@ public class ToDoDAO {
         return list;
     }
 
-    public boolean add(@NonNull ToDo toDo){
+    public void add(@NonNull ToDo toDo){
         SQLiteDatabase database = dbHelper.getWritableDatabase();
         database.beginTransaction();
         ContentValues values = new ContentValues();
-        values.put("TITLE", toDo.getTitle());
-        values.put("CONTENT", toDo.getComt());
-        values.put("DATE", toDo.getDate());
-        values.put("TYPE", toDo.getType());
-        values.put("STATUS", toDo.getStatus());
-        long check = database.insert("TODO", null, values);
-        return check != -1;
+        values.put("ID", toDo.ID);
+        values.put("TITLE", toDo.Title);
+//        Toast.makeText(context, toDo.Title, Toast.LENGTH_SHORT).show();
+        values.put("CONTENT", toDo.Comt);
+        values.put("DATE", toDo.Date);
+        values.put("TYPE", toDo.Type);
+        values.put("STATUS", toDo.Status);
+        database.insert("TODO", null, values);
     }
 
     public boolean remove(int position){
