@@ -1,23 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center|top"
-    android:padding="5dp"
-    tools:context=".MainActivity">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="2dp"
-        android:text="@string/todolist"
-        android:textSize="@dimen/todolist_size"
-        android:textAllCaps="true"
-        android:textStyle="bold"
-        android:gravity="center"/>
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <TextView
         android:layout_width="match_parent"
@@ -28,7 +13,7 @@
         android:textStyle="bold"/>
 
     <EditText
-        android:id="@+id/title"
+        android:id="@+id/txt_up_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
@@ -44,7 +29,7 @@
         android:textStyle="bold"/>
 
     <EditText
-        android:id="@+id/txt_content"
+        android:id="@+id/txt_up_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
@@ -60,7 +45,7 @@
         android:textStyle="bold"/>
 
     <EditText
-        android:id="@+id/txt_date"
+        android:id="@+id/txt_up_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
@@ -76,7 +61,7 @@
         android:textStyle="bold"/>
 
     <EditText
-        android:id="@+id/txt_type"
+        android:id="@+id/txt_up_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
@@ -88,21 +73,31 @@
         android:textSize="@dimen/text_size"
         android:textStyle="italic"/>
 
-    <Button
-        android:id="@+id/btn_add"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="2dp"
-        android:text="@string/add"
-        android:textSize="@dimen/btn_size"
-        android:textColor="@color/black"
-        android:textAllCaps="true"
-        android:background="@drawable/custom_btn1"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rcl_lst_todo"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btn_up_update"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="2dp"
+            android:text="@string/update"
+            android:textSize="@dimen/btn_size"
+            android:textColor="@color/black"
+            android:textAllCaps="true"
+            android:background="@drawable/custom_btn2"/>
+        <Button
+            android:id="@+id/btn_up_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_margin="2dp"
+            android:text="@string/cancel"
+            android:textSize="@dimen/btn_size"
+            android:textColor="@color/black"
+            android:textAllCaps="true"
+            android:background="@drawable/custom_btn3"/>
+    </LinearLayout>
 
 </LinearLayout>

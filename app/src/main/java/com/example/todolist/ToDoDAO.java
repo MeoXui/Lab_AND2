@@ -72,6 +72,19 @@ public class ToDoDAO {
         return row != -1;
     }
 
+    public boolean update(ToDo toDo){
+        SQLiteDatabase database = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("ID", toDo.ID);
+        values.put("TITLE", toDo.Title);
+        values.put("CONTENT", toDo.Comt);
+        values.put("DATE", toDo.Date);
+        values.put("TYPE", toDo.Type);
+        values.put("STATUS", toDo.Status);
+        int row = database.update( "TODO", values, "id = ?", new String[]{String.valueOf(toDo.ID)});
+        return row != -1;
+    }
+
     public boolean updateStatus(int position, boolean check){
         SQLiteDatabase database = dbHelper.getWritableDatabase();
         int status = check?1:0;

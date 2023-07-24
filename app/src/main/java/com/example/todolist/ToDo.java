@@ -19,6 +19,30 @@ public class ToDo {
         Status = status;
     }
 
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public void setTitle(String title) {
+        Title = title;
+    }
+
+    public void setComt(String comt) {
+        Comt = comt;
+    }
+
+    public void setDate(String date) {
+        Date = date;
+    }
+
+    public void setType(String type) {
+        Type = type;
+    }
+
+    public void setStatus(int status) {
+        Status = status;
+    }
+
     @NonNull
     @Override
     public String toString() {
