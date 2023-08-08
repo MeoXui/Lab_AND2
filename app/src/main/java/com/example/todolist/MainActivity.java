@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -64,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
         refresh(recyclerView);
 
         AtomicInteger iD = new AtomicInteger();
+        iD.set(4);
         btnAdd.setOnClickListener(v -> {
             boolean check = dao.add(new ToDo(iD.get(),
                     edtTitle.getText().toString(),

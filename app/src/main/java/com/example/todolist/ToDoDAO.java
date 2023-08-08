@@ -28,7 +28,8 @@ public class ToDoDAO {
         SQLiteDatabase database = dbHelper.getWritableDatabase();
         database.beginTransaction();
         try{
-            @SuppressLint("Recycle") Cursor cursor = database.rawQuery("Select * From TODO",null);
+            @SuppressLint("Recycle")
+            Cursor cursor = database.rawQuery("Select * From TODO",null);
             if(cursor != null && cursor.getCount() > 0){
                 cursor.moveToFirst();
                 while (!cursor.isAfterLast()){
